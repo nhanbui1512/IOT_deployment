@@ -11,7 +11,7 @@ const getDataVal = async (req, response, next) => {
       year: Joi.number().min(2023),
     });
 
-    await condition.validateAsync(req.body);
+    await condition.validateAsync(req.query);
     return next();
   } catch (error) {
     return response.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
