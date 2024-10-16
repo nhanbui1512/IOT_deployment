@@ -39,9 +39,12 @@ class NotificationController {
     await newNotify.save();
 
     //! ở đây còn thiếu thông tin của device và timestamp
-    // await writeRealtime(data.ref, {
-    //   data: message,
-    // });
+    await writeRealtime(req.body.ref, {
+      data: { 
+        deviceId:  deviceId,
+        message: message,
+       },
+    });
 
     return response.status(200).json({ data: newNotify });
   }
