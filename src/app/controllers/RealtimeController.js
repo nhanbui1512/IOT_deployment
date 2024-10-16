@@ -5,7 +5,6 @@ class RealtimeController {
   async write(req, res) {
     try {
       const data = req.body;
-      console.log(data);
       await writeRealtime(data.ref, {
         data: data.value,
       });

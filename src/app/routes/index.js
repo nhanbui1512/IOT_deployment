@@ -1,4 +1,3 @@
-const RealtimeRoute = require("./RealtimeRoute");
 const AuthRoute = require("./auth.route");
 const deviceRoute = require("./device.route");
 const fallAlertRoute = require("./fallAlert.route");
@@ -18,7 +17,6 @@ const notificationRoute = require("./notification.route");
  */
 
 function routes(app) {
-  app.use("/realtime", RealtimeRoute);
   app.use("/auth", AuthRoute);
   app.use("/devices", deviceRoute);
   app.use("/fall-alerts", fallAlertRoute);
