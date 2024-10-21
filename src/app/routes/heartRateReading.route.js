@@ -29,7 +29,7 @@ const { createDataVal } = require("../validations/heartRate.validation");
  *             properties:
  *               deviceId:
  *                 type: string
- *               heartRatevalue:
+ *               heartRateValue:
  *                 type: integer
  *               oxygen:
  *                 type: integer
