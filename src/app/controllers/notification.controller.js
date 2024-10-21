@@ -27,13 +27,11 @@ class NotificationController {
 
   async createNotification(req, response) {
     const { deviceId, message } = req.body;
-    const userId = req.userId;
 
     const device = await deviceModel.findById(deviceId);
     if (!device) throw NotFoundError({ message: "Not found device" });
 
     const newNotify = new fallAlertModel({
-      user_id: userId,
       device_id: deviceId,
       alert_type: "Warning",
       hanled: false,
