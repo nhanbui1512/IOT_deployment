@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const heartRateReadingController = require("../controllers/heartRateReading.controller");
 const { authMiddleWare } = require("../middlewares/auth.middleware");
+const { createDataVal } = require("../validations/heartRate.validation");
 
 /**
  * @swagger
@@ -29,17 +30,20 @@ const { authMiddleWare } = require("../middlewares/auth.middleware");
  *               deviceId:
  *                 type: string
  *               heartRatevalue:
- *                 format: date
+ *                 type: integer
+ *               oxygen:
  *                 type: integer
  *             required:
  *               - deviceId
  *               - heartRateValue
+ *               - oxygen
  *     responses:
  *       '200':
  *          description: Successful
  */
 router.post(
   "/",
+  createDataVal,
   authMiddleWare,
   heartRateReadingController.createHeartRateReading
 );

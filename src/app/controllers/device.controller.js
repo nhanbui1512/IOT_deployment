@@ -6,19 +6,21 @@ const Device = require("../models/device.model.js");
 async function createDevice(req, response) {
   const userId = req.userId;
 
-  const { deviceName, deviceType, serialNumber } = req.body;
+  const { deviceName, deviceType, serialNumber, deviceId } = req.body;
   if (!deviceName || !deviceType || !serialNumber) {
     throw new ValidationError({ message: "Required fields must be filled" });
   }
 
-  const newDevice = new Device({
-    user_id: userId,
-    device_name: deviceName,
-    device_type: deviceType,
-    serial_number: serialNumber,
-  });
+  const newDevice = await Device.findById(deviceId);
+  if (!newDevice) throw NotFoundError({ message: "Not found error" });
+
+  newDevice.user_id = userId;
+  newDevice.device_name = deviceName;
+  newDevice.serial_number = serialNumber;
+  newDevice.device_type = deviceType;
 
   await newDevice.save();
+
   return response
     .status(200)
     .json({ message: "Add device successfully", data: newDevice });

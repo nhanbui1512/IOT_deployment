@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const deviceController = require("../controllers/device.controller");
 const { authMiddleWare } = require("../middlewares/auth.middleware");
+const { createDevice } = require("../validations/device.validation");
 
 /**
  * @swagger
@@ -32,15 +33,18 @@ const { authMiddleWare } = require("../middlewares/auth.middleware");
  *                 type: string
  *               serialNumber:
  *                 type: string
+ *               deviceId:
+ *                 type: string
  *             required:
  *               - deviceName
  *               - deviceType
  *               - serialNumber
+ *               - deviceId
  *     responses:
  *       '200':
  *          description: Successful
  */
-router.post("/", authMiddleWare, deviceController.createDevice);
+router.post("/", createDevice, authMiddleWare, deviceController.createDevice);
 
 /**
  * @swagger
