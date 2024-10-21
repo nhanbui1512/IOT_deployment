@@ -72,12 +72,7 @@ router.get(
  *       '200':
  *          description: Write successful
  */
-router.post(
-  "/",
-  createDataVal,
-  authMiddleWare,
-  notificationController.createNotification
-);
+router.post("/", createDataVal, notificationController.createNotification);
 
 /**
  * @swagger

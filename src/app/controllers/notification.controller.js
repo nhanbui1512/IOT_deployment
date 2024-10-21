@@ -1,6 +1,7 @@
 const fallAlertModel = require("../models/fallAlert.model");
-const { writeRealtime } = require("../../common/firebase");
 const NotFoundError = require("../errors/NotFoundError");
+const deviceModel = require("../models/device.model");
+const { pushNotification } = require("../services/expo.notification");
 
 class NotificationController {
   async getNotifications(req, response) {
@@ -28,6 +29,9 @@ class NotificationController {
     const { deviceId, message } = req.body;
     const userId = req.userId;
 
+    const device = await deviceModel.findById(deviceId);
+    if (!device) throw NotFoundError({ message: "Not found device" });
+
     const newNotify = new fallAlertModel({
       user_id: userId,
       device_id: deviceId,
@@ -37,14 +41,7 @@ class NotificationController {
     });
 
     await newNotify.save();
-
-    //! ở đây còn thiếu thông tin của device và timestamp
-    await writeRealtime(req.body.ref, {
-      data: { 
-        deviceId:  deviceId,
-        message: message,
-       },
-    });
+    await pushNotification(`Warning falling on device ${device.device_name}`);
 
     return response.status(200).json({ data: newNotify });
   }
