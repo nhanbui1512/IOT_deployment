@@ -6,20 +6,15 @@ const moment = require("moment");
 
 class heartRateReadingController {
   createHeartRateReading = async (req, response) => {
-    const userId = req.userId;
     const deviceId = req.body.deviceId;
     const heartRateValue = req.body.heartRateValue;
     const oxygen = req.body.oxygen;
 
-    const device = await deviceModel.findOne({
-      user_id: userId,
-      _id: deviceId,
-    });
+    const device = await deviceModel.findById(deviceId);
     if (!device) throw new NotFoundError({ message: "Not found device" });
 
     const newHeartRate = new HeartRateReading({
       device_id: deviceId,
-      user_id: userId,
       heart_rate: heartRateValue,
       oxygen: oxygen,
     });

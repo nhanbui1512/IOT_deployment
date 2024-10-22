@@ -44,7 +44,6 @@ const { createDataVal } = require("../validations/heartRate.validation");
 router.post(
   "/",
   createDataVal,
-  authMiddleWare,
   heartRateReadingController.createHeartRateReading
 );
 
