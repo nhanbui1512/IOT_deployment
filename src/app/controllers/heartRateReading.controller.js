@@ -27,7 +27,7 @@ class heartRateReadingController {
   };
 
   getData = async (req, response) => {
-    const { from, to, deviceId, type } = req.body;
+    const { from, to, deviceId, type } = req.query;
     const userId = req.userId;
 
     if (type === "latest") {
@@ -39,6 +39,7 @@ class heartRateReadingController {
       return response.status(200).json({ data: latestRecord });
     }
 
+    // ! chưa handle được truyền trên params
     if (!from || !to)
       throw new ValidationError({ message: "Field from & to must be filled" });
 
