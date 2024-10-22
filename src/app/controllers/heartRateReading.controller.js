@@ -27,10 +27,20 @@ class heartRateReadingController {
   };
 
   getData = async (req, response) => {
-    const { from, to, deviceId } = req.body;
+    const { from, to, deviceId, type } = req.body;
     const userId = req.userId;
+
+    if (type === "latest") {
+      const latestRecord = await HeartRateReading.findOne({
+        device_id: deviceId,
+        user_id: userId,
+      }).sort({ createdAt: -1 });
+
+      return response.status(200).json({ data: latestRecord });
+    }
+
     if (!from || !to)
-      throw new ValidationError({ message: "Data must be filled" });
+      throw new ValidationError({ message: "Field from & to must be filled" });
 
     if (!moment(from, moment.ISO_8601, true).isValid()) {
       return response.status(400).json({ message: "Start date is not valid." });
@@ -39,6 +49,7 @@ class heartRateReadingController {
     if (!moment(to, moment.ISO_8601, true).isValid()) {
       return response.status(400).json({ message: "End date is not valid." });
     }
+
     const fromDate = new Date(from);
     const toDate = new Date(to);
 
@@ -49,7 +60,7 @@ class heartRateReadingController {
         $gte: fromDate, // Ngày bắt đầu
         $lte: toDate, // Ngày kết thúc
       },
-    });
+    }).sort({ createdAt: -1 });
 
     return response.status(200).json({ data: records });
   };
