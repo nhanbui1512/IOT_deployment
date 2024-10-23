@@ -54,7 +54,7 @@ class NotificationController {
     });
     if (!notification)
       throw NotFoundError({ message: "Not found notification" });
-    notification.hanled = true;
+    notification.handled = true;
     await notification.save();
 
     return response.status(200).json({ message: "Ok" });
