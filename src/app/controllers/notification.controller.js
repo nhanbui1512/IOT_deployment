@@ -36,6 +36,7 @@ class NotificationController {
       alert_type: "Warning",
       hanled: false,
       content: message,
+      user_id: device.user_id,
     });
 
     await newNotify.save();
