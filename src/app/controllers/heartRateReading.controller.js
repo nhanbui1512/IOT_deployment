@@ -17,6 +17,7 @@ class heartRateReadingController {
       device_id: deviceId,
       heart_rate: heartRateValue,
       oxygen: oxygen,
+      createdAt: new Date(),
     });
 
     await newHeartRate.save();
@@ -31,10 +32,13 @@ class heartRateReadingController {
     const userId = req.userId;
 
     if (type === "latest") {
-      const latestRecord = await HeartRateReading.findOne({
-        device_id: deviceId,
-        user_id: userId,
-      }).sort({ createdAt: -1 });
+      const latestRecord = await HeartRateReading.findOne(
+        {
+          device_id: deviceId,
+        },
+        {},
+        { sort: { createdAt: -1 } }
+      );
 
       return response.status(200).json({ data: latestRecord });
     }
