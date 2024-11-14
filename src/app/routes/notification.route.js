@@ -7,6 +7,15 @@ const {
 } = require("../validations/notification.validation");
 const router = express.Router();
 
+const rateLimit = require("express-rate-limit");
+
+const specificRouteLimiter = rateLimit({
+  windowMs: 1000 * 10,
+  max: 1,
+  message:
+    "Bạn đã gửi quá nhiều yêu cầu đến endpoint này, vui lòng thử lại sau.", // Thông báo khi bị giới hạn
+});
+
 /**
  * @swagger
  * tags:
@@ -72,7 +81,12 @@ router.get(
  *       '200':
  *          description: Write successful
  */
-router.post("/", createDataVal, notificationController.createNotification);
+router.post(
+  "/",
+  createDataVal,
+  specificRouteLimiter,
+  notificationController.createNotification
+);
 
 /**
  * @swagger
