@@ -61,13 +61,13 @@ class statisticController {
     }
 
     const givenDay = new Date(date);
+
     let { monday, sunday } = getMondayAndSunday(givenDay);
     monday.setHours(0, 0, 0, 0);
     sunday.setHours(23, 59, 59, 999);
 
     const heartRates = await heartRateReadingModel.find({
       device_id: deviceId,
-      user_id: userId,
       createdAt: {
         $gte: monday, // Ngày bắt đầu
         $lte: sunday, // Ngày kết thúc

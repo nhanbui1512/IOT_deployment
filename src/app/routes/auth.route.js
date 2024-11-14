@@ -6,6 +6,7 @@ const {
   logout,
   getProfile,
   changePassword,
+  updateProfile,
 } = require("../controllers/auth.controller");
 const { authMiddleWare } = require("../middlewares/auth.middleware");
 const { changePassValidation } = require("../validations/auth.validation");
@@ -134,5 +135,33 @@ router.get("/me", authMiddleWare, getProfile);
  *          description: Not Found Data
  */
 router.put("/password", changePassValidation, authMiddleWare, changePassword);
+
+/**
+ * @swagger
+
+ * /auth/me:
+ *   patch:
+ *     summary: Change password
+ *     tags: [Auth]
+ *     security:
+ *      - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json; charset=utf-8:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userName:
+ *                 type: string
+ *             required:
+ *               - userName
+ *     responses:
+ *       '200':
+ *          description: Successful
+ *       '404':
+ *          description: Not Found Data
+ */
+router.patch("/me", authMiddleWare, updateProfile);
 
 module.exports = router;

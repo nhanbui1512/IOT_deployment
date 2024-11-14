@@ -158,6 +158,15 @@ async function changePassword(req, response) {
     .json({ message: "Change password successfully", user: user });
 }
 
+async function updateProfile(req, response) {
+  const userName = req.body.userName;
+  const userId = req.userId;
+  const user = await userModel.findById(userId);
+  user.name = userName;
+  await user.save();
+  return response.status(200).json(user);
+}
+
 module.exports = {
   signup,
   login,
@@ -165,4 +174,5 @@ module.exports = {
   authCheck,
   getProfile,
   changePassword,
+  updateProfile,
 };
