@@ -2,6 +2,7 @@ const bcryptjs = require("bcryptjs");
 const User = require("../models/user.model.js");
 const { generateTokenAndSetCookie } = require("../utils/generateToken.js");
 const userModel = require("../models/user.model.js");
+const deviceModel = require("../models/device.model.js");
 
 async function signup(req, res, next) {
   try {
@@ -126,9 +127,12 @@ async function getProfile(req, response) {
   try {
     const userId = req.userId;
     var user = await userModel.findById(userId);
+    const devices = await deviceModel.find({
+      user_id: user.id,
+    });
     user = user.toJSON();
     delete user.password;
-    return response.status(200).json({ user });
+    return response.status(200).json({ user, devices });
   } catch (error) {
     return response
       .status(500)

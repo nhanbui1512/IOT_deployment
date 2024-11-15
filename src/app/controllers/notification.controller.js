@@ -35,12 +35,12 @@ class NotificationController {
       device_id: deviceId,
       alert_type: "Warning",
       hanled: false,
-      content: message,
+      content: `Fall warning on device ${device.device_name}`,
       user_id: device.user_id,
     });
 
     await newNotify.save();
-    await pushNotification(`Warning falling on device ${device.device_name}`);
+    await pushNotification(`Fall warning on device ${device.device_name} ⚠`);
 
     return response.status(200).json({ data: newNotify });
   }

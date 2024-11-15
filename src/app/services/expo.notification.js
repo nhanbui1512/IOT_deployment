@@ -9,7 +9,7 @@ async function pushNotification(message) {
       {
         to: process.env.deviceToken,
         sound: "default",
-        title: "Warning falling",
+        title: "Falling App",
         body: message || "This is a test notification sent via Postman!",
       },
       {
