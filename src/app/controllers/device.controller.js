@@ -6,8 +6,8 @@ const Device = require("../models/device.model.js");
 async function createDevice(req, response) {
   const userId = req.userId;
 
-  const { deviceName, deviceType, serialNumber, deviceId } = req.body;
-  if (!deviceName || !deviceType || !serialNumber) {
+  const { deviceName, deviceType, deviceId } = req.body;
+  if (!deviceName || !deviceType) {
     throw new ValidationError({ message: "Required fields must be filled" });
   }
 
@@ -16,7 +16,6 @@ async function createDevice(req, response) {
 
   newDevice.user_id = userId;
   newDevice.device_name = deviceName;
-  newDevice.serial_number = serialNumber;
   newDevice.device_type = deviceType;
 
   await newDevice.save();

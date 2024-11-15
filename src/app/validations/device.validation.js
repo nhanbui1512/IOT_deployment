@@ -7,7 +7,6 @@ async function createDevice(req, response, next) {
       deviceId: Joi.string().min(10).max(80).trim().required(),
       deviceName: Joi.string().min(10).max(100).trim().required(),
       deviceType: Joi.string().min(10).max(100).trim().required(),
-      serialNumber: Joi.string().min(10).max(100).trim().required(),
     });
 
     await condition.validateAsync(req.body);
